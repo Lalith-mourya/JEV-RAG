@@ -13,14 +13,21 @@ def ques(request:QuestionRequest):
     return request.question
 
 @app.post("/upload")
-def upload(file : UploadFile=File(...)):
-    if file.filename.endswith(".pdf") or file.filename.endswith(".txt"):
+async def upload(file : UploadFile=File(...)):  # File(...) is used to accept the multi from data
+    if file.filename.endswith(".txt"):
+        text = await file.read() # this return byte format , so we are converting this as the str
+        content = text.decode("utf-8")
         return {
             "filename" : file.filename,
-            "valid": True
+            "valid": True,
+            "content": content
+        }
+    elif file.filename.endswith(".pdf"):
+        return{
+            "filename": file.filename,
+            "valid":True
         }
     else:
         raise HTTPException(status_code=400,detail="This format is not supported")
         
-
 
