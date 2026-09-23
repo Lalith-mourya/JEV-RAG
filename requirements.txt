@@ -3,5 +3,5 @@ langchain-community
 huggingface
 streamlit
 chromadb
-sentence-transformer
 fastapi
+uvicorn 
